@@ -5,6 +5,8 @@ import CategoryDisplay from './CategoryDisplay'
 function App() {
 	const [list, setList] = useState([])
 	const [activeCategory, setActiveCategory] = useState('')
+	const [menu, setMenu] = useState(null)
+
 	return (
 		<>
 			<Header><h4>Menu Categories</h4></Header>
@@ -12,8 +14,9 @@ function App() {
 				<CategorySelect list={list}
 					setList={setList}
 					setActiveCategory={setActiveCategory}
+					setMenu={setMenu}
 				/>
-				<CategoryDisplay activeCategory={activeCategory} />
+				<CategoryDisplay activeCategory={activeCategory} menu={menu} />
 			</Categories>
 		</>)
 }

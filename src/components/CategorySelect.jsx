@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react';
-import { getCategory } from '../apis'
+import { getCategory, getItemsByShortName } from '../apis'
 import styled from 'styled-components'
 
 const CategorySelect = (props) => {
-    const { list, setList, setActiveCategory } = props
+    const { list, setList, setActiveCategory, setMenu } = props
+
+    const handleClick = async (shortName, name) => {
+        setMenu(await getItemsByShortName(shortName))
+        setActiveCategory(`${name} - ${shortName}`)
+    }
     useEffect(() => {
         (async () => {
             const result = await getCategory()
             setList(result.reduce((acc, item) => {
                 acc.push(
-                    <li key={item.id} onClick={() => setActiveCategory(item.name)}>
+                    <li key={item.id} onClick={() => handleClick(item.short_name, item.name)}>
                         {item.name} - {item.short_name}
                     </li>)
                 return acc
@@ -23,9 +28,9 @@ const CategorySelect = (props) => {
 }
 
 const List = styled.ul`
-    padding-left: 10rem;
-    margin-right: 5rem;
-    width: 25%;
+    padding-left: 100px;
+    padding-right: 50px;
+    width: 400px;
     cursor: pointer;
 
     li:hover {
