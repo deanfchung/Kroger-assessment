@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import { getCategory, getItemsByShortName } from '../apis'
+import getData from '../apis'
 import styled from 'styled-components'
 
 const CategorySelect = (props) => {
     const { list, setList, setActiveCategory, setMenu } = props
 
     const handleClick = async (shortName, name) => {
-        setMenu(await getItemsByShortName(shortName))
+        setMenu(await getData(shortName))
         setActiveCategory(`${name} - ${shortName}`)
     }
     useEffect(() => {
         (async () => {
-            const result = await getCategory()
+            const result = await getData()
             setList(result.reduce((acc, item) => {
                 acc.push(
                     <li key={item.id} onClick={() => handleClick(item.short_name, item.name)}>
@@ -20,7 +20,7 @@ const CategorySelect = (props) => {
                 return acc
             }, []))
         })()
-    }, [list, setActiveCategory, setList])
+    })
 
     return (
         <List>{list}</List >

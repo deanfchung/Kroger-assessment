@@ -1,25 +1,15 @@
-const BASE_URL = 'http://stream-restaurant-menu-svc.herokuapp.com'
-
-export const getCategory = async () => {
+const getData = async (...args) => {
+	let URL = process.env.REACT_APP_BASE_URL
+	args.length ? (URL += `/item?category=${args[0]}`) : (URL += '/category')
 	try {
-		const response = await fetch(BASE_URL + '/category')
+		const response = await fetch(URL)
 		const result = await response.json()
 		return new Promise((resolve) => {
 			return resolve(result)
 		})
 	} catch (e) {
-		console.error('error getting categories from api', e)
+		console.error('error getting data from api', e)
 	}
 }
 
-export const getItemsByShortName = async (name) => {
-	try {
-		const response = await fetch(BASE_URL + `/item?category=${name}`)
-		const result = await response.json()
-		return new Promise((resolve) => {
-			return resolve(result)
-		})
-	} catch (e) {
-		console.error('error fetching short name data from api', e)
-	}
-}
+export default getData
